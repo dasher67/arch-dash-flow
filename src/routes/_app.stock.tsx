@@ -192,7 +192,7 @@ function StockForm({ open, item, onClose }: { open: boolean; item: StockItem | n
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
-            if (!name.trim()) return toast.error(t("required"));
+            if (!name.trim()) { toast.error(t("required")); return; }
             save.mutate();
           }}
         >

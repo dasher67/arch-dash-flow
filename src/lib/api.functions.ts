@@ -165,7 +165,7 @@ export const uploadStockImage = createServerFn({ method: "POST" })
     await requireStaff(data.token, ["admin"]);
     const m = /^data:(image\/(png|jpeg|webp|gif));base64,(.+)$/.exec(data.dataUrl);
     if (!m) throw new Error("INVALID_IMAGE");
-    const bytes = Uint8Array.from(atob(m[3]), (c) => c.charCodeAt(0));
+    const bytes = Uint8Array.from(atob(m[3]!), (c) => c.charCodeAt(0));
     const ext = m[2] === "jpeg" ? "jpg" : m[2];
     const path = `${crypto.randomUUID()}.${ext}`;
     const sb = await db();
