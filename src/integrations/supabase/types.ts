@@ -14,7 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          city: string
+          created_at: string
+          created_by: string | null
+          created_by_name: string | null
+          id: string
+          items: Json
+          notes: string | null
+          order_number: number
+          phone: string
+          resolved_at: string | null
+          resolved_by_name: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          total: number
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          created_by?: string | null
+          created_by_name?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          order_number?: number
+          phone: string
+          resolved_at?: string | null
+          resolved_by_name?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total?: number
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          created_by?: string | null
+          created_by_name?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          order_number?: number
+          phone?: string
+          resolved_at?: string | null
+          resolved_by_name?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      staff: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          pin: string
+          role: Database["public"]["Enums"]["staff_role"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          pin: string
+          role?: Database["public"]["Enums"]["staff_role"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          pin?: string
+          role?: Database["public"]["Enums"]["staff_role"]
+        }
+        Relationships: []
+      }
+      staff_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          staff_id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          staff_id: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          staff_id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_sessions_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock: {
+        Row: {
+          colors: string[]
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          colors?: string[]
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          quantity?: number
+          unit_price?: number
+        }
+        Update: {
+          colors?: string[]
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +161,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      order_status: "pending" | "completed"
+      staff_role: "admin" | "staff" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +289,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      order_status: ["pending", "completed"],
+      staff_role: ["admin", "staff", "viewer"],
+    },
   },
 } as const
