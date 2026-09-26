@@ -135,8 +135,8 @@ function StaffForm({ open, member, onClose }: { open: boolean; member: Member | 
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
-            if (!name.trim()) return toast.error(t("required"));
-            if (!/^\d{4,6}$/.test(pin)) return toast.error(t("invalidPin"));
+            if (!name.trim()) { toast.error(t("required")); return; }
+            if (!/^\d{4,6}$/.test(pin)) { toast.error(t("invalidPin")); return; }
             save.mutate();
           }}
         >
